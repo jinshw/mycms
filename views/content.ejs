@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>个人CMS系统</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <%include common/link.ejs%>
+    <link rel="stylesheet" href="stylesheets/content.css">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+  <div class="wrapper">
+
+    <!-- Main Header -->
+    <%include common/header.ejs%>
+      <!-- Left side column. contains the logo and sidebar -->
+      <%include common/left.ejs%>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+          <section class="content-header">
+            <h1>
+              Page Header
+              <small>Optional description</small>
+            </h1>
+            <ol class="breadcrumb">
+              <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+              <li class="active">Here</li>
+            </ol>
+          </section>
+
+          <!-- Main content -->
+          <section class="content container-fluid">
+
+            <!--------------------------
+        | Your Page Content Here |
+        -------------------------->
+
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="box">
+                  <div class="box-header">
+                    <h3 class="box-title"></h3>
+                    <div class="btn-area">
+                      <div class="btn  btn-primary" id="addBt">新建</div>
+                      <div class="btn  btn-primary" id="delBt">删除</div>
+                      <div class="btn  btn-primary" id="publishBt">发布</div>
+                      <div class="btn  btn-primary" id="copyBt">复制</div>
+                    </div>
+                  </div>
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th>
+                            <label>
+                              <input type="checkbox">
+                            </label>
+                          </th>
+                          <th>标题</th>
+                          <th>访问量</th>
+                          <th>更新日期</th>
+                          <th>状态</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+
+                      <!-- <tfoot>
+                        <tr>
+                          <th>Rendering engine</th>
+                          <th>Browser</th>
+                          <th>Platform(s)</th>
+                          <th>Engine version</th>
+                          <th>CSS grade</th>
+                        </tr>
+                      </tfoot> -->
+                    </table>
+                  </div>
+                  <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+
+              </div>
+            </div>
+
+          </section>
+          <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Main Footer -->
+        <%include common/footer.ejs%>
+
+          <!-- Control Sidebar -->
+          <%include common/right.ejs%>
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- REQUIRED JS SCRIPTS -->
+  <%include common/script.ejs%>
+
+    <script>
+      // 全局数据
+      var table = $('#example2').DataTable({
+        'paging': true,
+        'lengthChange': false,
+        'searching': false,
+        'ordering': false,
+        'info': true,
+        'autoWidth': true,
+        ajax: {
+          "url": "/article/getByConditions",
+          "type": "POST"
+        },
+        // "columns": [
+        //   { "width": "30px" },
+        //   null,
+        //   null,
+        //   null,
+        //   null,
+        //   null
+        // ]
+
+
+        columns: [
+          // { "width": "30px" },
+          {
+            "data": "id",
+            "render": function (data, type, full, meta) {
+              return '<input type="checkbox" data-id="' + data + '">';
+            },
+            "width": "30px"
+          },
+          {
+            "data": "title",
+            "render": function (data, type, full, meta) {
+              return '<a href="/content/templ?id=' + full.id + '" target="_blank">' + data + '</a>';
+            }
+          },
+          { "data": "title" },
+          { "data": "oldtitle" },
+          { "data": "author" },
+          {
+            "render": function (data, type, full, meta) {
+              return '<a class="btn btn-xs btn-primary" target="_blank" href="article?id=' + full.id + '&_id=' + full._id + '" >编辑</a>' +
+                ' <a class="btn btn-xs btn-primary" href="javascript:delArticle(\'' + full._id + '\')">删除</a>'+
+                '<a class="btn btn-xs btn-primary" href="javascript:publish(\''+ full._id +'\')">发布</a>';
+            }
+          }
+
+        ]
+
+
+
+      })
+
+      $(function () {
+        $('#example2 tbody').on('click', 'tr', function () {
+          // $(this).toggleClass('selected');
+        });
+
+        // 获取新闻列表
+        // ajaxRequest.getByConditions({}).then(function (data) {
+        //   console.log("getByConditions")
+        //   console.log(data)
+        // })
+
+        $("#addBt").click(function () {
+          window.open("article")
+          // window.location.href = "article"
+        })
+
+      })
+
+      function delArticle(_id) {
+        //询问框
+        layer.confirm('您是否确定删除该条记录？', {
+          btn: ['确定', '取消'] //按钮
+        }, function () {//确定
+
+          ajaxRequest.delArticle({ _id: _id }).then(function (data) {
+            layer.msg('删除成功', { icon: 1 });
+            layer.close()
+            table.ajax.reload();
+          })
+
+        }, function () {//取消
+
+        });
+
+
+      }
+      function publish(_id){
+        ajaxRequest.publish({_id:_id}).then(function(data){
+          layer.msg("发布成功")
+        })
+      }
+    </script>
+</body>
+
+</html>

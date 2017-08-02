@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 公共引用css文件 -->
+    <link rel="stylesheet" href="/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/news/templ.css">
+
+    <title>
+        <%=data.title%>
+    </title>
+</head>
+
+<body>
+    <div class="news-header">
+        <ul class="nav navbar-nav navbar-left news-nav">
+            <li class="dropdown">
+                <a href="#">首页</a>
+            </li>
+            <li class="dropdown">
+                <a href="#">新闻</a>
+            </li>
+            <li class="dropdown">
+                <a href="#">体育</a>
+            </li>
+            <li class="dropdown">
+                <a href="#">娱乐</a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    更多<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">新闻一</a></li>
+                    <li><a href="#">新闻一</a></li>
+                    <li><a href="#">新闻一</a></li>
+                    <li><a href="#">新闻一</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="article-content">
+        <div class="article-left"></div>
+        <div class="article-main">
+            <div class="hd">
+                <h1>
+                    <%=data.title%>
+                </h1>
+                <div class="article-bar">
+                    <div class="article-info">
+                        <span class="ai-source">金沙江创投</span>
+                        <span class="ai-author"> <%=data.author%> </span>
+                        <span class="ai-time">2017-07-31 10:31</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bd">
+                <div class="bd-article-content">
+                    
+                    <%-data.content%>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="/lib/jquery/jquery-2.1.4/jquery.min.js"></script>
+    <script src="/lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

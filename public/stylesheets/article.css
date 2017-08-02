@@ -1,0 +1,8 @@
+.edit-area {
+    height: 500px;
+    width: 100%;
+}
+.tools-bar {
+    border-bottom: 1px solid #3c8dbc;
+    padding: 5px 0;
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文章详情页--编辑</title>
+    <%include ../common/link.ejs%>
+        <link rel="stylesheet" href="/stylesheets/article.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="tools-bar">
+            <div class="btn btn-primary" id="saveBt">保存</div>
+            <div class="btn btn-primary" id="newBt">新建</div>
+            <div class="btn btn-primary" id="previewBt">预览</div>
+        </div>
+        <div class="info-area">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="articleName">标题</label>
+                        <input type="text" class="form-control" placeholder="" id="title">
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="oldTilte">原标题</label>
+                        <input type="text" class="form-control" placeholder="" id="oldtitle">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="author">作者</label>
+                        <input type="text" class="form-control" id="author" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="edit-area">
+            <script id="editor" type="text/plain" style="width:100%;height:100%;"></script>
+        </div>
+
+    </div>
+
+
+    <%include ../common/script.ejs%>
+        <script type="text/javascript" charset="utf-8" src="/lib/ueditor/ueditor.config.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/lib/ueditor/ueditor.all.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
+        <script>
+            var ue = UE.getEditor('editor');
+
+            $(function () {
+                // 初始化：获取参数
+                var id = getUrlParam('id')
+                console.log(id)
+
+                ue.ready(function (editor) {
+                    if (id != null) {//编辑
+                        ajaxRequest.findOne({ id: id }).then(function (data) {
+                            console.log(data)
+                            $("#title").val(data.data.title)
+                            $("#oldtitle").val(data.data.oldtitle)
+                            $("#author").val(data.data.author)
+                            ue.setContent(data.data.content)
+                        })
+
+                    }
+                })
+
+
+                $('#saveBt').click(function () {
+                    console.log("saveBt...")
+                    var title = $("#title").val()
+                    var oldtitle = $("#oldtitle").val()
+                    var author = $("#author").val()
+                    var content = ue.getContent()
+                    var _id = getUrlParam('_id')
+                    // var id = new Date().getTime()+"*" + parseInt(Math.random()*10000)
+
+                    if (id != null) {
+                        ajaxRequest.findByIdAndUpdate({_id:_id,id:id,title:title,oldtitle:oldtitle,author:author,content:content}).then(function(data){
+                            layer.msg("保存成功")
+                        })
+                    } else {
+                        id = new Date().getTime() + "*" + parseInt(Math.random() * 10000)
+                        ajaxRequest.articleInsert({ id: id, title: title, oldtitle: oldtitle, author: author, content: content }).then(function (data) {
+                            layer.msg("保存成功")
+                        })
+                    }
+
+                })
+
+
+            })
+
+
+            //获取url中的参数
+            function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+                var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+                if (r != null) return unescape(r[2]); return null; //返回参数值
+            }
+        </script>
+</body>
+
+</html>
