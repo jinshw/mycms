@@ -18,5 +18,5 @@
 node_modules/
 .git/
 .vscode/
-dist/
+/dist
 # 忽略 文件
