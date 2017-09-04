@@ -1,14 +1,14 @@
-var Article = require("./entity/article.js")
+var Column = require("./entity/column.js")
 var mongoose = require('mongoose')
-class ArticleDao {
+class ColumnDao {
     insert(obj) {
         var _param = obj || {}
         // var user = new User({
         //     userid: "333",
         //     password: "bbbb"
         // })
-        var article = new Article(obj)
-        article.save(function (err, res) {
+        var column = new Column(obj)
+        column.save(function (err, res) {
             if (err) {
                 console.log("Error:" + err);
             }
@@ -18,12 +18,38 @@ class ArticleDao {
         })
     }
 
+    getByConditions(obj) {
+        var wherestr = obj || {};
+        var promise = new mongoose.Promise();
+        Column.find(wherestr, function (err, res) {
 
+            if (err) {
+                console.log("Error:" + err);
+            }
+            else {
+                // console.log("Res:", res);
+                // console.log(res.userid, res.password)
+            }
+            promise.resolve(err, res)
+        }).sort({ 'orders': 1 })
+        return promise;
+    }
+
+    del(obj) {
+        Column.remove(obj, function (err, res) {
+            if (err) {
+                console.log("Error:" + err);
+            }
+            else {
+                // console.log("Res:" + res);
+            }
+        })
+    }
 
     findByIdAndUpdate(obj) {
         var _id = obj._id;
         var promise = new mongoose.Promise();
-        Article.findByIdAndUpdate(_id, obj, function (err, res) {
+        Column.findByIdAndUpdate(_id, obj, function (err, res) {
 
             if (err) {
                 console.log("Error:" + err);
@@ -36,6 +62,20 @@ class ArticleDao {
         })
         return promise;
     }
+
+
+    // ---------------------------------
+
+
+
+
+
+
+
+
+
+
+
 
     findOne(obj) {
         var promise = new mongoose.Promise();
@@ -55,34 +95,10 @@ class ArticleDao {
     }
 
 
-    del(obj) {
-        Article.remove(obj, function (err, res) {
-            if (err) {
-                console.log("Error:" + err);
-            }
-            else {
-                console.log("Res:" + res);
-            }
-        })
-    }
 
 
-    getByConditions(obj) {
-        var wherestr = obj || {};
-        var promise = new mongoose.Promise();
-        Article.find(wherestr, function (err, res) {
 
-            if (err) {
-                console.log("Error:" + err);
-            }
-            else {
-                // console.log("Res:", res);
-                // console.log(res.userid, res.password)
-            }
-            promise.resolve(err, res)
-        }).sort({ 'publishtime': -1 })
-        return promise;
-    }
+
 
     // 批量更新
     update() {
@@ -101,4 +117,4 @@ class ArticleDao {
 
 }
 
-module.exports = ArticleDao
+module.exports = ColumnDao

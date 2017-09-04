@@ -1,0 +1,13 @@
+.ztree-bar {
+    margin: 0 auto;
+    text-align: left;
+    padding: 5px 2px;
+}
+
+.main-area {
+    width: 100%;
+    height: 800px;
+    background-color: #e1e1e1;
+    text-align: left;
+    padding: 10px 20px;
+}

@@ -9,6 +9,9 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <%include common/link.ejs%>
     <link rel="stylesheet" href="stylesheets/content.css">
+
+    <!-- REQUIRED JS SCRIPTS -->
+    <%include common/script.ejs%>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -41,7 +44,13 @@
         -------------------------->
 
             <div class="row">
-              <div class="col-xs-12">
+              <div class="col-xs-2">
+                <div class="ztree-area" style="width:100%;height:800px;background-color:#e1e1e1;">
+                  <ul id="colTree" class="ztree"></ul>
+                </div>
+
+              </div>
+              <div class="col-xs-10">
                 <div class="box">
                   <div class="box-header">
                     <h3 class="box-title"></h3>
@@ -101,106 +110,119 @@
   </div>
   <!-- ./wrapper -->
 
-  <!-- REQUIRED JS SCRIPTS -->
-  <%include common/script.ejs%>
 
-    <script>
-      // 全局数据
-      var table = $('#example2').DataTable({
-        'paging': true,
-        'lengthChange': false,
-        'searching': false,
-        'ordering': false,
-        'info': true,
-        'autoWidth': true,
-        ajax: {
-          "url": "/article/getByConditions",
-          "type": "POST"
+
+  <script>
+    // 全局数据
+    var setting = {
+      data: {
+        simpleData: {
+          enable: true
+        }
+      },
+      callback: {
+        onClick: zTreeOnClick
+      }
+    };
+
+    var table = $('#example2').DataTable({
+      'paging': true,
+      'lengthChange': false,
+      'searching': false,
+      'ordering': false,
+      'info': true,
+      'autoWidth': true,
+      ajax: {
+        "url": "/article/getByConditions",
+        "type": "POST"
+      },
+      columns: [
+        // { "width": "30px" },
+        {
+          "data": "id",
+          "render": function (data, type, full, meta) {
+            return '<input type="checkbox" data-id="' + data + '">';
+          },
+          "width": "30px"
         },
-        // "columns": [
-        //   { "width": "30px" },
-        //   null,
-        //   null,
-        //   null,
-        //   null,
-        //   null
-        // ]
-
-
-        columns: [
-          // { "width": "30px" },
-          {
-            "data": "id",
-            "render": function (data, type, full, meta) {
-              return '<input type="checkbox" data-id="' + data + '">';
-            },
-            "width": "30px"
-          },
-          {
-            "data": "title",
-            "render": function (data, type, full, meta) {
-              return '<a href="/content/templ?id=' + full.id + '" target="_blank">' + data + '</a>';
-            }
-          },
-          { "data": "title" },
-          { "data": "oldtitle" },
-          { "data": "author" },
-          {
-            "render": function (data, type, full, meta) {
-              return '<a class="btn btn-xs btn-primary" target="_blank" href="article?id=' + full.id + '&_id=' + full._id + '" >编辑</a>' +
-                ' <a class="btn btn-xs btn-primary" href="javascript:delArticle(\'' + full._id + '\')">删除</a>'+
-                '<a class="btn btn-xs btn-primary" href="javascript:publish(\''+ full._id +'\')">发布</a>';
-            }
+        {
+          "data": "title",
+          "render": function (data, type, full, meta) {
+            return '<a href="/content/templ?id=' + full.id + '" target="_blank">' + data + '</a>';
           }
+        },
+        { "data": "title" },
+        { "data": "publishtime" },
+        { "data": "author" },
+        {
+          "render": function (data, type, full, meta) {
+            return '<a class="btn btn-xs btn-primary" target="_blank" href="article?id=' + full.id + '&_id=' + full._id + '" >编辑</a>' +
+              ' <a class="btn btn-xs btn-primary" href="javascript:delArticle(\'' + full._id + '\')">删除</a>' +
+              '<a class="btn btn-xs btn-primary" href="javascript:publish(\'' + full._id + '\')">发布</a>';
+          }
+        }
 
-        ]
+      ]
+    })
 
 
+    $(function () {
 
+      initZtree()
+
+      $('#example2 tbody').on('click', 'tr', function () {
+        // $(this).toggleClass('selected');
+      });
+
+      // 获取新闻列表
+      // ajaxRequest.getByConditions({}).then(function (data) {
+      //   console.log("getByConditions")
+      //   console.log(data)
+      // })
+
+      $("#addBt").click(function () {
+        window.open("article")
+        // window.location.href = "article"
       })
 
-      $(function () {
-        $('#example2 tbody').on('click', 'tr', function () {
-          // $(this).toggleClass('selected');
-        });
+    })
 
-        // 获取新闻列表
-        // ajaxRequest.getByConditions({}).then(function (data) {
-        //   console.log("getByConditions")
-        //   console.log(data)
-        // })
+    function delArticle(_id) {
+      //询问框
+      layer.confirm('您是否确定删除该条记录？', {
+        btn: ['确定', '取消'] //按钮
+      }, function () {//确定
 
-        $("#addBt").click(function () {
-          window.open("article")
-          // window.location.href = "article"
+        ajaxRequest.delArticle({ _id: _id }).then(function (data) {
+          layer.msg('删除成功', { icon: 1 });
+          layer.close()
+          table.ajax.reload();
         })
 
+      }, function () {//取消
+
+      });
+
+
+    }
+    function publish(_id) {
+      ajaxRequest.publish({ _id: _id }).then(function (data) {
+        layer.msg("发布成功")
       })
+    }
 
-      function delArticle(_id) {
-        //询问框
-        layer.confirm('您是否确定删除该条记录？', {
-          btn: ['确定', '取消'] //按钮
-        }, function () {//确定
-
-          ajaxRequest.delArticle({ _id: _id }).then(function (data) {
-            layer.msg('删除成功', { icon: 1 });
-            layer.close()
-            table.ajax.reload();
-          })
-
-        }, function () {//取消
-
-        });
-
-
-      }
-      function publish(_id){
-        ajaxRequest.publish({_id:_id}).then(function(data){
-          layer.msg("发布成功")
-        })
-      }
-    </script>
+    var initZtree = () => {
+      ajaxRequest.columnGetByConditions({}).then(function (data) {
+        data.data[0].open = true
+        $.fn.zTree.init($("#colTree"), setting, data.data);
+      })
+    }
+    function zTreeOnClick(event, treeId, treeNode) {
+      console.log("zTreeOnClick....")
+      table.settings()[0].ajax.data = { columnid: treeNode.id };
+      table.ajax.reload();
+    }
+  </script>
 </body>
 
 </html>

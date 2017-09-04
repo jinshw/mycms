@@ -7,6 +7,7 @@ var router = express.Router();
 var ejs = require('ejs-html')
 var fs = require('fs')
 var moment = require('moment')
+var shortid = require('shortid')
 
 var Article = require("../db/ArticleUtils.js")
 var articleDao = new Article();
@@ -26,11 +27,12 @@ router.get('/', function (req, res, next) {
 });
 router.post('/insert', function (req, res, next) {
     req.body.publishtime = moment().format("YYYY-MM-DD HH:mm:ss")
+    // req.body._id = shortid.generate()
     articleDao.insert(req.body);
     res.json({ status: 200, msg: 'insert success' });
 })
 router.post("/getByConditions", function (req, res, next) {
-    articleDao.getByConditions().then(function (data) {
+    articleDao.getByConditions(req.body).then(function (data) {
         var _result = {}
         _result.data = data
         res.json({ data: data });

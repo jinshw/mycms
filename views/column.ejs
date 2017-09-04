@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>个人CMS系统</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <%include common/link.ejs%>
+        <link rel="stylesheet" href="stylesheets/column.css">
+
+        <!-- REQUIRED JS SCRIPTS -->
+        <%include common/script.ejs%>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Main Header -->
+        <%include common/header.ejs%>
+            <!-- Left side column. contains the logo and sidebar -->
+            <%include common/left.ejs%>
+
+                <!-- Content Wrapper. Contains page content -->
+                <div class="content-wrapper">
+                    <!-- Content Header (Page header) -->
+                    <section class="content-header">
+                        <h1>
+                            Page Header
+                            <small>Optional description</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                            <li class="active">Here</li>
+                        </ol>
+                    </section>
+
+                    <!-- Main content -->
+                    <section class="content container-fluid">
+
+                        <!--------------------------
+        | Your Page Content Here |
+        -------------------------->
+
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <div class="ztree-area" style="width:100%;height:800px;background-color:#e1e1e1;">
+                                    <div class="ztree-bar">
+                                        <a href="#" class="btn btn-xs btn-primary" id="addBt">新增</a>
+                                        <a href="#" class="btn btn-xs btn-primary" id="addChdBt">新增子节点</a>
+                                        <a href="#" class="btn btn-xs btn-primary" id="delBt">删除</a>
+                                    </div>
+                                    <ul id="colTree" class="ztree"></ul>
+                                </div>
+
+                                <!-- /.box -->
+
+                            </div>
+                            <div class="col-xs-10">
+                                <div class="main-area">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label for="id">标识</label>
+                                                <input type="text" class="form-control" placeholder="" id="id">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label for="name">名称</label>
+                                                <input type="text" class="form-control" id="name" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label for="orders">排序值</label>
+                                                <input type="text" class="form-control" placeholder="" id="orders">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group">
+                                                <label for="status">状态</label>
+                                                <input type="text" class="form-control" id="status" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 bt-bar">
+                                            <a href="#" id="saveBt" class="btn btn-primary">保存</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                    <!-- /.content -->
+                </div>
+                <!-- /.content-wrapper -->
+
+                <!-- Main Footer -->
+                <%include common/footer.ejs%>
+
+                    <!-- Control Sidebar -->
+                    <%include common/right.ejs%>
+    </div>
+    <!-- ./wrapper -->
+
+    <script>
+        // 全局变量
+        var ztreeObj
+        var _id = ""
+        var pId = 0
+        var saveType = 0 // 0 编辑保存 1 新建子节点保存 2 新建节点保存
+        var _treeNode
+
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: zTreeOnClick
+            }
+        };
+
+        function zTreeOnClick(event, treeId, treeNode) {
+            console.log(event);
+            console.log(treeId);
+            console.log(treeNode);
+            _treeNode = treeNode
+            _id = treeNode.id
+            setVal(treeNode)
+            saveType = 0 // 编辑
+        }
+
+
+        function setVal(obj) {
+            $("#id").val(obj.id)
+            $("#name").val(obj.name)
+            $("#orders").val(obj.orders)
+            $("#status").val(obj.status)
+        }
+
+
+
+        // var zNodes = [
+        //     { id: "1", pId: 0, name: "父节点1 - 展开", open: true },
+        //     { id: 11, pId: "1", name: "父节点11 - 折叠" },
+        //     { id: 111, pId: 11, name: "叶子节点111" },
+        //     { id: 112, pId: 11, name: "叶子节点112" },
+        //     { id: 113, pId: 11, name: "叶子节点113" },
+        //     { id: 114, pId: 11, name: "叶子节点114" },
+        //     { id: 12, pId: 1, name: "父节点12 - 折叠" },
+        //     { id: 121, pId: 12, name: "叶子节点121" },
+        //     { id: 122, pId: 12, name: "叶子节点122" },
+        //     { id: 123, pId: 12, name: "叶子节点123" },
+        //     { id: 124, pId: 12, name: "叶子节点124" },
+        //     { id: 13, pId: 1, name: "父节点13 - 没有子节点", isParent: true },
+        //     { id: 2, pId: 0, name: "父节点2 - 折叠" },
+        //     { id: 21, pId: 2, name: "父节点21 - 展开", open: true },
+        //     { id: 211, pId: 21, name: "叶子节点211" },
+        //     { id: 212, pId: 21, name: "叶子节点212" },
+        //     { id: 213, pId: 21, name: "叶子节点213" },
+        //     { id: 214, pId: 21, name: "叶子节点214" },
+        //     { id: 22, pId: 2, name: "父节点22 - 折叠" },
+        //     { id: 221, pId: 22, name: "叶子节点221" },
+        //     { id: 222, pId: 22, name: "叶子节点222" },
+        //     { id: 223, pId: 22, name: "叶子节点223" },
+        //     { id: 224, pId: 22, name: "叶子节点224" },
+        //     { id: 23, pId: 2, name: "父节点23 - 折叠" },
+        //     { id: 231, pId: 23, name: "叶子节点231" },
+        //     { id: 232, pId: 23, name: "叶子节点232" },
+        //     { id: 233, pId: 23, name: "叶子节点233" },
+        //     { id: 234, pId: 23, name: "叶子节点234" },
+        //     { id: 3, pId: 0, name: "父节点3 - 没有子节点", isParent: true }
+        // ];
+
+        $(document).ready(function () {
+            initZtree()
+
+
+            // $.fn.zTree.init($("#colTree"), setting, zNodes);
+
+            // 保存事件
+            $("#saveBt").click(function () {
+                console.log("save...")
+                var name = $("#name").val()
+                var orders = $("#orders").val()
+                var status = $("#status").val()
+
+                if (saveType == 0) {// 编辑保存
+
+                } else if (saveType == 1) {//新建子节点保存
+                    pId = _id
+                } else if (saveType == 2) {//新建节点
+                    pId = 0
+                }
+
+                if (saveType == 1 || saveType == 2) {
+                    ajaxRequest.columnInsert({ name: name, orders: orders, status: "正常", pId: pId }).then(function (data) {
+                        layer.msg("保存成功")
+                        ()
+                    })
+                }else{
+                    _treeNode.name = name
+                    _treeNode.orders = orders
+                    _treeNode.status = status
+                    ajaxRequest.columnFindByIdAndUpdate(_treeNode).then((data) => {
+                        layer.msg("修改成功")
+                        initZtree()
+                    })
+                }
+
+            })
+
+            $("#addChdBt").click(function () {
+                if (_id == "") {
+                    layer.msg("请选择一个节点")
+                    return false
+                }
+
+                setVal({})
+                saveType = 1
+
+            })
+
+            $("#addBt").click(function () {
+                setVal({})
+                saveType = 2
+            })
+
+            $("#delBt").click(() => {
+                console.log("del....")
+                if (_id == "") {
+                    layer.msg("请选择一个节点")
+                    return false
+                } else {
+                    //询问框
+                    layer.confirm('你确定删除该节点吗？', {
+                        btn: ['确定', '取消'] //按钮
+                    }, function () {
+                        ajaxRequest.columnDel({ _id: _id }).then((data) => {
+                            layer.msg('删除成功', { icon: 1 });
+                            initZtree()
+                        })
+
+
+                    }, function () {
+                    });
+                }
+            })
+
+        });
+
+        var initZtree = () => {
+            ajaxRequest.columnGetByConditions({}).then(function (data) {
+                $.fn.zTree.init($("#colTree"), setting, data.data);
+            })
+        }
+    </script>
+
+</body>
+
+</html>
