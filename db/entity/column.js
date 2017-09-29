@@ -17,7 +17,9 @@ var ColumnSchema = new Schema({
     name: { type: String },
     orders: { type: String },
     pId: { type: String },
-    status: { type: String }
+    status: { type: String },
+    byname: { type: String },
+    localdir: { type: String }
 });
 
 module.exports = mongoose.model('column', ColumnSchema);

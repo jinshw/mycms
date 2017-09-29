@@ -42,6 +42,14 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="brief">简介</label>
+                        <textarea class="form-control" rows="3" id="brief"></textarea>
+                    </div>
+                </div>
+            </div>  
         </div>
         <div class="edit-area">
             <script id="editor" type="text/plain" style="width:100%;height:100%;"></script>
@@ -55,6 +63,8 @@
         <script type="text/javascript" charset="utf-8" src="/lib/ueditor/ueditor.all.min.js"></script>
         <script type="text/javascript" charset="utf-8" src="/lib/ueditor/lang/zh-cn/zh-cn.js"></script>
         <script>
+            // 全局变量
+            var editorObj = null;
             var ue = UE.getEditor('editor');
 
             $(function () {
@@ -66,9 +76,11 @@
                     if (id != null) {//编辑
                         ajaxRequest.findOne({ id: id }).then(function (data) {
                             console.log(data)
+                            editorObj = data
                             $("#title").val(data.data.title)
                             $("#oldtitle").val(data.data.oldtitle)
                             $("#author").val(data.data.author)
+                            $("#brief").val(data.data.brief)
                             ue.setContent(data.data.content)
                         })
 
@@ -83,20 +95,28 @@
                     var author = $("#author").val()
                     var content = ue.getContent()
                     var _id = getUrlParam('_id')
+                    var columnid = getUrlParam("columnid")
+
+                    var brief = getSubstr(ue.getContentTxt(),111)
+
                     // var id = new Date().getTime()+"*" + parseInt(Math.random()*10000)
 
                     if (id != null) {
-                        ajaxRequest.findByIdAndUpdate({_id:_id,id:id,title:title,oldtitle:oldtitle,author:author,content:content}).then(function(data){
+                        ajaxRequest.findByIdAndUpdate({_id:_id,id:id,title:title,oldtitle:oldtitle,author:author,content:content,columnid:editorObj.columnid,brief:brief}).then(function(data){
                             layer.msg("保存成功")
+                            parentWinRef()
                         })
                     } else {
                         id = new Date().getTime() + "*" + parseInt(Math.random() * 10000)
-                        ajaxRequest.articleInsert({ id: id, title: title, oldtitle: oldtitle, author: author, content: content }).then(function (data) {
+                        ajaxRequest.articleInsert({ id: id, title: title, oldtitle: oldtitle, author: author, content: content,columnid:columnid,brief:brief }).then(function (data) {
                             layer.msg("保存成功")
+                            parentWinRef()
                         })
                     }
 
                 })
+
+               
 
 
             })
@@ -107,6 +127,23 @@
                 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
                 var r = window.location.search.substr(1).match(reg);  //匹配目标参数
                 if (r != null) return unescape(r[2]); return null; //返回参数值
+            }
+
+            function parentWinRef(){
+                window.opener.callback()
+                window.close();//当前页面关闭
+            }
+
+            /*截取字符串，超过长度的添加"..."
+            * str:需要截取的字符串
+            * len:需要截取的长度
+            */
+            function getSubstr(str,len){
+                if(str.length > len){
+                    return str.substr(0,len) + "..."
+                }else{
+                    return str
+                }
             }
         </script>
 </body>

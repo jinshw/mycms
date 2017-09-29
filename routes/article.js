@@ -16,7 +16,7 @@ var articleDao = new Article();
 var config = require("../config.js")
 
 
-/* GET users listing. */
+/* GET article listing. */
 router.get('/', function (req, res, next) {
     articleDao.findOne({ _id: req.query._id }).then(function (data) {
         res.render('article/articleEdit', { data: data })
@@ -32,6 +32,7 @@ router.post('/insert', function (req, res, next) {
     res.json({ status: 200, msg: 'insert success' });
 })
 router.post("/getByConditions", function (req, res, next) {
+
     articleDao.getByConditions(req.body).then(function (data) {
         var _result = {}
         _result.data = data
@@ -51,6 +52,7 @@ router.post("/findOne", function (req, res, next) {
 
 
 router.post("/findByIdAndUpdate", function (req, res, next) {
+    req.body.publishtime = moment().format("YYYY-MM-DD HH:mm:ss")
     articleDao.findByIdAndUpdate(req.body).then(function (data) {
         var _result = {}
         _result.data = data

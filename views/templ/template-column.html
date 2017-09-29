@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PC端栏目模板</title>
+    <link rel="stylesheet" type="text/css" href="../../public/lib/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../public/lib/font-awesome-4.7.0/css/font-awesome.css">
+    <script src="../../public/lib/jquery/jquery-2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../../public/lib/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <style type="text/css">
+    body {
+        font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 13px;
+        background-color: #fff;
+        color: #717171;
+    }
+
+    .bg-white a {
+        color: #2e3e4e;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #1b252e;
+    }
+
+    a:hover,
+    a:focus {
+        color: #4a647e;
+        text-decoration: none;
+    }
+
+
+    .top {
+        background-color: #f7f7f7;
+        border: 1px solid #f1f1f1;
+    }
+
+    .top-row {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .btn-primary {
+        color: #ffffff !important;
+        background-color: #65bd77;
+        border-color: #65bd77;
+    }
+
+    .hw {
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+
+    .hw-sh {
+        margin-top: 10px;
+    }
+
+    .hw-list {
+        margin-top: 10px;
+    }
+    /*栏目*/
+
+    .colnav {
+        background-color: #f7f7f7;
+        color: #717171;
+        border-top: 3px solid #c01410;
+        margin-top: 10px;
+    }
+
+    .colnav-row {
+        margin-top: 10px;
+    }
+
+    @media (min-width: 1200px) .colnav-col {
+        padding: 5px 0px 5px 10px;
+    }
+
+    .colnav-col {
+        padding: 0px 0px 0px 5px;
+        font-size: 13px;
+        border-right: 1px solid #cfcfcf;
+        border-color: #f1f1f1;
+    }
+
+    .font14 {
+        font-size: 14px;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+    /*主体内容*/
+
+    .chd-nav {
+        padding: 10px;
+        margin-top: 5px;
+        border-bottom: 1px solid #cfcfcf;
+        border-color: #f1f1f1;
+    }
+
+    .chd-column {
+        margin: 20px;
+    }
+
+    .lh20 {
+        line-height: 2.0;
+    }
+
+    .h4,
+    h4 {
+        font-size: 18px;
+    }
+
+    .m-b-md {
+        margin-bottom: 20px;
+    }
+
+    .m-l-sm {
+        margin-left: 10px;
+    }
+
+    .m-t-lg {
+        margin-top: 30px;
+    }
+
+    .m-sm {
+        margin: 10px;
+    }
+
+    .b-light {
+        border-color: #f1f1f1;
+    }
+
+    .darkred {
+        color: #c01410;
+    }
+
+    .lt.bg-light,
+    .bg-light .lt {
+        background-color: #f7f7f7;
+    }
+    </style>
+</head>
+
+<body class="bg-white">
+    <!-- top 最顶部 -->
+    <div class="container-fluid top">
+        <div class="container">
+            <div class="row top-row">
+                <div class="col-sm-4">
+                    <a href="#">
+                      	<img src="http://demo1.zving.com/images/small_logo.gif">
+                      </a> &nbsp;|&nbsp;
+                    <a href="#">泽元内容管理系统</a>
+                </div>
+                <div class="col-sm-8 text-right">
+                    <span class="top-login">
+    					<a href="#">注册</a>|
+    					<a href="#">登录</a>
+    				</span>
+                    <span class="top-hidden">收藏本站</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--// top 最顶部 -->
+    <!-- 热词及搜索 -->
+    <div class="container">
+        <div class="row hw">
+            <div class="col-md-4 col-sm-5">
+                <a href="#">
+    				<img src="http://demo1.zving.com/images/logo.gif">
+    			</a>
+            </div>
+            <div class="col-md-4 col-sm-7 hw-sh">
+                <div class="search input-group">
+                    <input type="text" class="form-control search-query" placeholder="全站搜索">
+                    <span class="input-group-btn"> 
+				    	<a class="btn btn-primary search-submit" type="button"> <span class="fa fa-search"></span>&nbsp;搜索
+                    </a>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4 text-center hw-list">
+                <ul class="list-inline h5 searchwords">
+                    <li>热词：</li>
+                    <li><a href="#">山西</a></li>
+                    <li><a href="#">中国</a></li>
+                    <li><a href="#">形势</a></li>
+                    <li><a href="#">美国</a></li>
+                    <li><a href="#">衰退</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--// 热词及搜索 -->
+    <!-- 栏目导航 -->
+    <div class="container colnav">
+        <div class="row colnav-row">
+            <div class="col-sm-6 col-md-3 colnav-col">
+                <ul class="list-inline">
+                    <li class="bold font14">
+                        <a href="#" target="_blank">国内 </a>
+                    </li>
+                    <li><a href="#" target="_blank">内地</a></li>
+                    <li><a href="#" target="_blank">时政要闻</a></li>
+                    <li><a href="#" target="_blank">港澳台</a></li>
+                </ul>
+                <ul class="list-inline">
+                    <li class="bold font14">
+                        <a href="#" target="_blank">科技 </a>
+                    </li>
+                    <li><a href="#" target="_blank">互联网</a></li>
+                    <li><a href="#" target="_blank">业界</a></li>
+                    <li><a href="#" target="_blank">电子商务</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-6 col-md-3  colnav-col">
+                <ul class="list-inline">
+                    <li class="bold font14">
+                        <a href="" target="_blank">国际 </a>
+                    </li>
+                </ul>
+                <ul class="list-inline">
+                    <li class="bold font14">
+                        <a href="#" target="_blank">娱乐 </a>
+                    </li>
+                    <li><a href="#" target="_blank">明星</a></li>
+                    <li><a href="#" target="_blank">电影</a></li>
+                    <li><a href="#" target="_blank">电视</a></li>
+                    <li><a href="#" target="_blank">视频</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-6 col-md-3  colnav-col">
+                <ul class="list-inline">
+                    <li class="bold font14">
+                        <a href="" target="_blank">国际 </a>
+                    </li>
+                </ul>
+                <ul class="list-inline">
+                    <li class="bold font14">
+                        <a href="#" target="_blank">娱乐 </a>
+                    </li>
+                    <li><a href="#" target="_blank">明星</a></li>
+                    <li><a href="#" target="_blank">电影</a></li>
+                    <li><a href="#" target="_blank">电视</a></li>
+                    <li><a href="#" target="_blank">视频</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-6 col-md-3 colnav-col">
+                <ul class="list-inline">
+                    <li class="bold font14">
+                        <a href="#" target="_blank">社会 </a>
+                    </li>
+                    <li><a href="#" target="_blank">社会与法</a></li>
+                    <li><a href="#" target="_blank">社会万象</a></li>
+                    <li><a href="#" target="_blank">真情时刻</a></li>
+                </ul>
+                <ul class="list-inline">
+                    <li class="bold font14">
+                        <a href="#" target="_blank">评论 </a>
+                    </li>
+                    <li><a href="#" target="_blank">滚动</a></li>
+                    <li><a href="#" target="_blank">文娱</a></li>
+                    <li><a href="#" target="_blank">体育</a></li>
+                    <li><a href="#" target="_blank">新观察</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--// 栏目导航 -->
+    <!-- 主体内容 -->
+    <div class="container">
+        <div class="row">
+            <!-- 导航和子栏目列表 -->
+            <div class="col-md-8">
+                <div class="chd-nav text-left">
+                    <a href="/">首页</a>
+                    <span style="color:#ccc;padding:0 5px;">/</span>
+                    <a href="#">国内新闻</a>
+                    <span style="color:#ccc;padding:0 5px;">/</span>
+                    <a href="#">内地</a>
+                </div>
+                <!-- 子栏目列表 -->
+                <div class="chd-column">
+                    <div class="font14">
+                        <ul class="list-unstyled lh20">
+                            <li>
+                                <a class="h4 bold" href="#" style="">山西可口可乐公司称产品掺消毒用含氯水为误传</a>
+                                <div class="m-b-md">
+                                    <div class="media-body">
+                                        <div class="m-l-sm">本报讯 (记者胡笑红)昨天，针对山西可口可乐公司被曝混入含氯处理水的12万箱产品已进入市场销售，当事公司称属“误传”，但声明回避关键问题仍是澄而不清。 媒体报道：500万元产品含消毒液 　　有媒体报道称，近日可口可乐(山西)饮料公司...
+                                        </div>
+                                        <div class="pull-right font-12" style="color: #aaa">
+                                            [
+                                            <span>2012-05-07 15:57:22</span> ]
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="h4 bold" href="#" style="">山西可口可乐公司称产品掺消毒用含氯水为误传</a>
+                                <div class="m-b-md">
+                                    <div class="media-body">
+                                        <div class="m-l-sm">本报讯 (记者胡笑红)昨天，针对山西可口可乐公司被曝混入含氯处理水的12万箱产品已进入市场销售，当事公司称属“误传”，但声明回避关键问题仍是澄而不清。 媒体报道：500万元产品含消毒液 　　有媒体报道称，近日可口可乐(山西)饮料公司...
+                                        </div>
+                                        <div class="pull-right font-12" style="color: #aaa">
+                                            [
+                                            <span>2012-05-07 15:57:22</span> ]
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="m-t-lg m-g-lg text-center">
+                            <div>
+                                <ul class="pagination">
+                                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li class=""><a href="index_2.shtml">2</a></li>
+                                    <li class=""><a href="index_3.shtml">3</a></li>
+                                    <li class=""><a href="index_4.shtml">4</a></li>
+                                    <li class=""><a href="index_2.shtml"><span aria-hidden="true">»</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 右侧 -->
+            <div class="col-md-4">
+            </div>
+        </div>
+    </div>
+    <!--// 主体内容 -->
+    <!-- 尾部 -->
+    <div class="container-fluid bg-light lt m-t-sm hidden-xs" style="border-top: 1px solid #ddd">
+        <div class="container">
+            <div class="row m-sm">
+                <div class="col-md-3">
+                    <a href="http://demo.zving.com/cn/"><img src="http://demo1.zving.com/images/friendlinkpic.gif"> </a>
+                </div>
+                <div class="col-md-9 b-l b-light">
+                    <h4 class="darkred">友情链接</h4>
+                    <ul class="list-inline">
+                        <li><a href="http://www.news.com" target="_blank">新华社</a></li>
+                        <li><a href="https://www.imefuture.com/" target="_blank">智造家</a></li>
+                        <li><a href="https://efeibiao.imefuture.com" target="_blank">非标采购</a></li>
+                        <li><a href="http://www.baidu.com" target="_blank">百度</a></li>
+                        <li><a href="http://ddf.co" target="_blank">ddf</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--// 尾部 -->
+</body>
+
+</html>

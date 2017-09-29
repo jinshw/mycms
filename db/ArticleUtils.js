@@ -22,6 +22,10 @@ class ArticleDao {
 
     findByIdAndUpdate(obj) {
         var _id = obj._id;
+        var updatestr = new Object()
+        // 主键ID不能修改
+        delete obj._id
+
         var promise = new mongoose.Promise();
         Article.findByIdAndUpdate(_id, obj, function (err, res) {
 

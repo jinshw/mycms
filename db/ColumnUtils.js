@@ -49,7 +49,11 @@ class ColumnDao {
     findByIdAndUpdate(obj) {
         var _id = obj._id;
         var promise = new mongoose.Promise();
-        Column.findByIdAndUpdate(_id, obj, function (err, res) {
+        var updatestr = new Object()
+        updatestr.name = obj.name
+        updatestr.orders = obj.orders
+        updatestr.status = obj.status
+        Column.findByIdAndUpdate(_id, updatestr, function (err, res) {
 
             if (err) {
                 console.log("Error:" + err);

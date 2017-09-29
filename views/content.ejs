@@ -134,7 +134,7 @@
       'autoWidth': true,
       ajax: {
         "url": "/article/getByConditions",
-        "type": "POST"
+        "type": "POST",
       },
       columns: [
         // { "width": "30px" },
@@ -181,11 +181,23 @@
       // })
 
       $("#addBt").click(function () {
-        window.open("article")
+        var treeObj = $.fn.zTree.getZTreeObj("colTree");
+        var nodes = treeObj.getSelectedNodes();
+        if(nodes.length != 0){
+          window.open("article?columnid="+nodes[0]._id)
+        }else{
+          window.open("article")
+        }
+        
         // window.location.href = "article"
       })
 
     })
+
+    function callback(){
+      alert("1234")
+    }
+
 
     function delArticle(_id) {
       //询问框
@@ -219,7 +231,11 @@
     }
     function zTreeOnClick(event, treeId, treeNode) {
       console.log("zTreeOnClick....")
-      table.settings()[0].ajax.data = { columnid: treeNode.id };
+      table.settings()[0].ajax.data = { columnid: treeNode._id };
+      table.ajax.reload();
+    }
+
+    function callback(){
       table.ajax.reload();
     }
   </script>

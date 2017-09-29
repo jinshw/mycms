@@ -50,6 +50,7 @@
                                         <a href="#" class="btn btn-xs btn-primary" id="addBt">新增</a>
                                         <a href="#" class="btn btn-xs btn-primary" id="addChdBt">新增子节点</a>
                                         <a href="#" class="btn btn-xs btn-primary" id="delBt">删除</a>
+                                        <a href="#" class="btn btn-xs btn-primary" id="publish">发布</a>
                                     </div>
                                     <ul id="colTree" class="ztree"></ul>
                                 </div>
@@ -59,40 +60,97 @@
                             </div>
                             <div class="col-xs-10">
                                 <div class="main-area">
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            <div class="form-group">
-                                                <label for="id">标识</label>
-                                                <input type="text" class="form-control" placeholder="" id="id">
-                                            </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            基础信息
                                         </div>
-                                        <div class="col-xs-6">
-                                            <div class="form-group">
-                                                <label for="name">名称</label>
-                                                <input type="text" class="form-control" id="name" placeholder="">
+                                        <div class="panel-body">
+                                           <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="id">标识</label>
+                                                        <input type="text" class="form-control" placeholder="" id="id">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="name">栏目名称</label>
+                                                        <input type="text" class="form-control" id="name" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="byname">栏目别名</label>
+                                                        <input type="text" class="form-control" placeholder="" id="byname">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="localdir">所在目录</label>
+                                                        <input type="text" class="form-control" id="localdir" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="orders">排序值</label>
+                                                        <input type="text" class="form-control" placeholder="" id="orders">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="status">状态</label>
+                                                        <input type="text" class="form-control" id="status" placeholder="">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            <div class="form-group">
-                                                <label for="orders">排序值</label>
-                                                <input type="text" class="form-control" placeholder="" id="orders">
-                                            </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" data-toggle="collapse" 
+                                            data-target="#pcTemplateArea">
+                                            PC模板属性
                                         </div>
-                                        <div class="col-xs-6">
-                                            <div class="form-group">
-                                                <label for="status">状态</label>
-                                                <input type="text" class="form-control" id="status" placeholder="">
+                                        <div id="pcTemplateArea" class="panel-body collapse in">
+                                           <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="templatelist">列表页模板</label>
+                                                        <input type="text" class="form-control" placeholder="" id="templatelist">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="templatedetail">详细页模板</label>
+                                                        <input type="text" class="form-control" id="templatedetail" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <div class="form-group">
+                                                        <label for="listshownum">列表页显示文档数</label>
+                                                        <input type="text" class="form-control" placeholder="" id="listshownum">
+                                                    </div>
+                                                </div>
+                                               
                                             </div>
                                         </div>
                                     </div>
+
+
                                     <div class="row">
                                         <div class="col-xs-12 bt-bar">
                                             <a href="#" id="saveBt" class="btn btn-primary">保存</a>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -133,17 +191,19 @@
             console.log(treeId);
             console.log(treeNode);
             _treeNode = treeNode
-            _id = treeNode.id
+            _id = treeNode._id
             setVal(treeNode)
             saveType = 0 // 编辑
         }
 
 
         function setVal(obj) {
-            $("#id").val(obj.id)
+            $("#id").val(obj._id)
             $("#name").val(obj.name)
             $("#orders").val(obj.orders)
             $("#status").val(obj.status)
+            $("#byname").val(obj.byname)
+            $("#localdir").val(obj.localdir)
         }
 
 
@@ -192,6 +252,8 @@
                 var name = $("#name").val()
                 var orders = $("#orders").val()
                 var status = $("#status").val()
+                var byname = $("#byname").val()
+                var localdir = $("#localdir").val()
 
                 if (saveType == 0) {// 编辑保存
 
@@ -202,9 +264,9 @@
                 }
 
                 if (saveType == 1 || saveType == 2) {
-                    ajaxRequest.columnInsert({ name: name, orders: orders, status: "正常", pId: pId }).then(function (data) {
+                    ajaxRequest.columnInsert({ name: name, orders: orders, status: "正常", pId: pId,byname:byname,localdir:localdir }).then(function (data) {
                         layer.msg("保存成功")
-                        ()
+                        initZtree()
                     })
                 }else{
                     _treeNode.name = name
@@ -253,6 +315,22 @@
                     }, function () {
                     });
                 }
+            })
+
+            $("#publish").click(()=>{
+                console.log("publish...")
+                if (_id == "") {
+                    layer.msg("请选择一个节点")
+                    return false
+                }else{
+
+                    ajaxRequest.publishColumn({columnid: _id}).then((data) =>{
+                        console.log(data)
+                    } )
+                }
+                
+
+
             })
 
         });

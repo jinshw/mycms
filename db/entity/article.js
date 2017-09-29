@@ -18,7 +18,8 @@ var ArticleSchema = new Schema({
     publishtime: { type: String },
     status: { type: String },
     columnid: { type: String },
-    classid: { type: String }
+    classid: { type: String },
+    brief: { type: String }
 });
 
 // var MycollectionSchema = new Schema({

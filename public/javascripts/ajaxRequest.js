@@ -214,6 +214,27 @@ var BASE_URL_HTML = "";
 		return dtd.promise();
 	}
 
+	ajaxRequest.publishColumn = function(obj){
+		var dtd = $.Deferred();
+		$.ajax({
+			url:BASE_URL_HTML+'/column/publishColumn',
+			data:obj,
+			type:'post',
+			dataType:'json',
+			success:function(data){
+				if(data.status==200){
+					dtd.resolve(data);
+				}else if(data.status==500){
+					dtd.reject(data.message);
+				}
+			},
+			error : function() {
+				dtd.reject();
+			}
+		});
+		return dtd.promise();
+	}
+
 
 	window.ajaxRequest = ajaxRequest;
 })($);
