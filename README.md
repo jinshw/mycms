@@ -5,7 +5,8 @@
 2. cmd中运行：node-inspector
 3. 在项目文件夹cmd中运行：node --debug bin/www
 4. express 热启动(修改代码保存后自动重启)：
-    npm i nodemon -g 
+
+    npm i nodemon -g  
     nodemon --debug ./bin/www
 5. 
 

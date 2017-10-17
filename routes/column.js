@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs')
+var ejs = require('ejs-html')
 var moment = require('moment')
 var shortid = require('shortid')
 var Column = require("../db/ColumnUtils.js")
@@ -60,11 +62,16 @@ router.post("/publishColumn", function(req, res, next) {
     articleDao.getByConditions(req.body).then(function(data) {
         var _result = {}
         _result.data = data
-        for (var index in data) {
 
-            var _content = fs.readFileSync(config.TEMPLATE_URL + "templ-column.ejs", "utf-8")
-            let html = ejs.render(_content, { list:data, baseurl: config.HTML_BASEURL })
+        var _content = fs.readFileSync(config.TEMPLATE_URL + "templ-column.ejs", "utf-8")
+        let html = ejs.render(_content, { list:data, baseurl: config.HTML_BASEURL })
+        fs.writeFileSync(config.EJSTOHTML_URL + req.body.columnid + ".html", html)
+
+        for (var index in data) {
+            var _contentArt = fs.readFileSync(config.TEMPLATE_URL + "templ.ejs", "utf-8")
+            let html = ejs.render(_contentArt, { data: data[index], baseurl: config.HTML_BASEURL })
             fs.writeFileSync(config.EJSTOHTML_URL + data[index]._id + ".html", html)
+
             articleDao.findByIdAndUpdate({
                 _id: data[index]._id,
                 publishtime: moment().format("YYYY-MM-DD HH:mm:ss"),
@@ -74,7 +81,11 @@ router.post("/publishColumn", function(req, res, next) {
             })
 
         }
-        res.json({ data: data });
+        var _result = {}
+        _result.data = data
+        _result.status = 200
+        _result.msg = "success"
+        res.json(_result);
     })
 })
 
