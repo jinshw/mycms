@@ -63,23 +63,26 @@ router.post("/publishColumn", function(req, res, next) {
         var _result = {}
         _result.data = data
 
+        // 发布列表
         var _content = fs.readFileSync(config.TEMPLATE_URL + "templ-column.ejs", "utf-8")
         let html = ejs.render(_content, { list:data, baseurl: config.HTML_BASEURL })
         fs.writeFileSync(config.EJSTOHTML_URL + req.body.columnid + ".html", html)
 
+        // 发布文章
         for (var index in data) {
-            var _contentArt = fs.readFileSync(config.TEMPLATE_URL + "templ.ejs", "utf-8")
-            let html = ejs.render(_contentArt, { data: data[index], baseurl: config.HTML_BASEURL })
-            fs.writeFileSync(config.EJSTOHTML_URL + data[index]._id + ".html", html)
-
-            articleDao.findByIdAndUpdate({
-                _id: data[index]._id,
-                publishtime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                status: "已发布"
-            }).then(function(data) {
-
-            })
-
+            if(data[index]._doc.link == null){
+                var _contentArt = fs.readFileSync(config.TEMPLATE_URL + "templ.ejs", "utf-8")
+                let html = ejs.render(_contentArt, { data: data[index], baseurl: config.HTML_BASEURL })
+                fs.writeFileSync(config.EJSTOHTML_URL + data[index]._id + ".html", html)
+    
+                articleDao.findByIdAndUpdate({
+                    _id: data[index]._id,
+                    publishtime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    status: "已发布"
+                }).then(function(data) {
+    
+                })
+            }
         }
         var _result = {}
         _result.data = data

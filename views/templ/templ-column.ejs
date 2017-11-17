@@ -289,9 +289,15 @@
                         <ul class="list-unstyled lh20">
                             <% list.forEach(function(data){ %>  
                             <li>
-                                <a class="h4 bold" href="<%=data._id%>.html" style="" target="_blank">
-                                    <%=data.title%>
-                                </a>
+                                <% if(data.link==null){%>
+                                    <a class="h4 bold" href="<%=data._id%>.html" style="" target="_blank">
+                                        <%=data.title%>
+                                    </a>
+                                <%} else{%>
+                                    <a class="h4 bold" href="<%=data.link%>" style="" target="_blank">
+                                        <%=data.title%>
+                                    </a>
+                                <%}%>
                                 <div class="m-b-md">
                                     <div class="media-body">
                                         <div class="m-l-sm">
@@ -305,7 +311,7 @@
                                 </div>
                             </li>
                             <% }) %>  
-                            <li>
+                            <!--<li>
                                 <a class="h4 bold" href="#" style="">山西可口可乐公司称产品掺消毒用含氯水为误传</a>
                                 <div class="m-b-md">
                                     <div class="media-body">
@@ -317,7 +323,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </li>
+                            </li>-->
                         </ul>
                         <div class="m-t-lg m-g-lg text-center">
                             <div>

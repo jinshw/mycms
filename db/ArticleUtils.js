@@ -84,7 +84,9 @@ class ArticleDao {
                 // console.log(res.userid, res.password)
             }
             promise.resolve(err, res)
-        }).sort({ 'publishtime': -1 })
+        })
+        // 没有解决的问题：添加按照publishtime字段排序，只返回1000条数据（数据库中实际有2205条），
+        // }).sort({ 'publishtime': -1 })
         return promise;
     }
 
