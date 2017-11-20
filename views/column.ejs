@@ -31,7 +31,10 @@
                             <small>Optional description</small>
                         </h1>
                         <ol class="breadcrumb">
-                            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-dashboard"></i> Level</a>
+                            </li>
                             <li class="active">Here</li>
                         </ol>
                     </section>
@@ -66,7 +69,7 @@
                                             基础信息
                                         </div>
                                         <div class="panel-body">
-                                           <div class="row">
+                                            <div class="row">
                                                 <div class="col-xs-6">
                                                     <div class="form-group">
                                                         <label for="id">标识</label>
@@ -112,22 +115,30 @@
                                     </div>
 
                                     <div class="panel panel-default">
-                                        <div class="panel-heading" data-toggle="collapse" 
-                                            data-target="#pcTemplateArea">
+                                        <div class="panel-heading" data-toggle="collapse" data-target="#pcTemplateArea">
                                             PC模板属性
                                         </div>
                                         <div id="pcTemplateArea" class="panel-body collapse in">
-                                           <div class="row">
+                                            <div class="row">
                                                 <div class="col-xs-6">
                                                     <div class="form-group">
                                                         <label for="templatelist">列表页模板</label>
-                                                        <input type="text" class="form-control" placeholder="" id="templatelist">
+                                                        <!-- <input type="text" class="form-control" placeholder="" id="templatelist"> -->
+                                                        <select class="form-control select2" id="templatelist" style="width:100%;">
+                                                            <option value="templ.ejs">文章详情页模板</option>
+                                                            <option selected="selected" value="templ-column.ejs">文章列表页模板</option>
+                                                        </select>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <div class="form-group">
                                                         <label for="templatedetail">详细页模板</label>
-                                                        <input type="text" class="form-control" id="templatedetail" placeholder="">
+                                                        <!-- <input type="text" class="form-control" id="templatedetail" placeholder=""> -->
+                                                        <select class="form-control select2" id="templatedetail" style="width:100%;">
+                                                            <option selected="selected" value="templ.ejs">文章详情页模板</option>
+                                                            <option value="templ-column.ejs">文章列表页模板</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -138,7 +149,7 @@
                                                         <input type="text" class="form-control" placeholder="" id="listshownum">
                                                     </div>
                                                 </div>
-                                               
+
                                             </div>
                                         </div>
                                     </div>
@@ -243,6 +254,8 @@
         $(document).ready(function () {
             initZtree()
 
+            $("#templatelist").select2();
+            $("#templatedetail").select2();
 
             // $.fn.zTree.init($("#colTree"), setting, zNodes);
 
@@ -254,6 +267,8 @@
                 var status = $("#status").val()
                 var byname = $("#byname").val()
                 var localdir = $("#localdir").val()
+                var templatelist = $("#templatelist").val()
+                var templatedetail = $("#templatedetail").val()
 
                 if (saveType == 0) {// 编辑保存
 
@@ -264,14 +279,16 @@
                 }
 
                 if (saveType == 1 || saveType == 2) {
-                    ajaxRequest.columnInsert({ name: name, orders: orders, status: "正常", pId: pId,byname:byname,localdir:localdir }).then(function (data) {
+                    ajaxRequest.columnInsert({ name: name, orders: orders, status: "正常", pId: pId, byname: byname, localdir: localdir, templatelist: templatelist, templatedetail: templatedetail }).then(function (data) {
                         layer.msg("保存成功")
                         initZtree()
                     })
-                }else{
+                } else {
                     _treeNode.name = name
                     _treeNode.orders = orders
                     _treeNode.status = status
+                    _treeNode.templatelist = templatelist
+                    _treeNode.templatedetail = templatedetail
                     ajaxRequest.columnFindByIdAndUpdate(_treeNode).then((data) => {
                         layer.msg("修改成功")
                         initZtree()
@@ -317,22 +334,34 @@
                 }
             })
 
-            $("#publish").click(()=>{
+            $("#publish").click(() => {
                 console.log("publish...")
                 if (_id == "") {
                     layer.msg("请选择一个节点")
                     return false
-                }else{
+                } else {
+                    var name = $("#name").val()
+                    var orders = $("#orders").val()
+                    var status = $("#status").val()
+                    var byname = $("#byname").val()
+                    var localdir = $("#localdir").val()
+                    var templatelist = $("#templatelist").val()
+                    var templatedetail = $("#templatedetail").val()
 
-                    ajaxRequest.publishColumn({columnid: _id}).then((data) =>{
+                    ajaxRequest.publishColumn({
+                        columnid: _id, name: name, orders: orders,
+                        status: status, byname: byname, localdir: localdir,
+                        templatedetail: templatedetail, templatelist: templatelist
+                    }).then((data) => {
                         console.log(data)
                         layer.msg("成功")
-                    } )
+                    })
                 }
-                
+
 
 
             })
+
 
         });
 

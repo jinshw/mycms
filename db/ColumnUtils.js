@@ -53,6 +53,8 @@ class ColumnDao {
         updatestr.name = obj.name
         updatestr.orders = obj.orders
         updatestr.status = obj.status
+        updatestr.templatelist = obj.templatelist
+        updatestr.templatedetail = obj.templatedetail
         Column.findByIdAndUpdate(_id, updatestr, function (err, res) {
 
             if (err) {
@@ -69,17 +71,6 @@ class ColumnDao {
 
 
     // ---------------------------------
-
-
-
-
-
-
-
-
-
-
-
 
     findOne(obj) {
         var promise = new mongoose.Promise();

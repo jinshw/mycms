@@ -31,7 +31,10 @@
               <small>Optional description</small>
             </h1>
             <ol class="breadcrumb">
-              <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+              <li>
+                <a href="#">
+                  <i class="fa fa-dashboard"></i> Level</a>
+              </li>
               <li class="active">Here</li>
             </ol>
           </section>
@@ -148,7 +151,13 @@
         {
           "data": "title",
           "render": function (data, type, full, meta) {
-            return '<a href="/content/templ?id=' + full.id + '" target="_blank">' + data + '</a>';
+            var _str = ""
+            if(full.link == null){
+              _str = '<a href="/content/templ?id=' + full.id + '" target="_blank">' + data + '</a>';
+            }else{
+              _str = '<a href="' + full.link + '" target="_blank">' + data + '</a>';
+            }
+            return _str
           }
         },
         { "data": "title" },
@@ -156,9 +165,17 @@
         { "data": "author" },
         {
           "render": function (data, type, full, meta) {
-            return '<a class="btn btn-xs btn-primary" target="_blank" href="article?id=' + full.id + '&_id=' + full._id + '" >编辑</a>' +
+            var _str = ""
+            // if(full.link == null){
+              _str = '<a class="btn btn-xs btn-primary" target="_blank" href="article?id=' + full.id + '&_id=' + full._id + '" >编辑</a>' +
               ' <a class="btn btn-xs btn-primary" href="javascript:delArticle(\'' + full._id + '\')">删除</a>' +
-              '<a class="btn btn-xs btn-primary" href="javascript:publish(\'' + full._id + '\')">发布</a>';
+              '<a class="btn btn-xs btn-primary" href="javascript:publish(\'' + full._id + '\',\'' + full.columnid + '\'  )">发布</a>';
+            
+            // }else{
+            //   _str = '<a class="btn btn-xs btn-primary" target="_blank" href="article?id=' + full.id + '&_id=' + full._id + '" >编辑</a>' +
+            //   ' <a class="btn btn-xs btn-primary" href="javascript:delArticle(\'' + full._id + '\')">删除</a>';
+            // }
+            return _str
           }
         }
 
@@ -183,18 +200,18 @@
       $("#addBt").click(function () {
         var treeObj = $.fn.zTree.getZTreeObj("colTree");
         var nodes = treeObj.getSelectedNodes();
-        if(nodes.length != 0){
-          window.open("article?columnid="+nodes[0]._id)
-        }else{
+        if (nodes.length != 0) {
+          window.open("article?columnid=" + nodes[0]._id)
+        } else {
           window.open("article")
         }
-        
+
         // window.location.href = "article"
       })
 
     })
 
-    function callback(){
+    function callback() {
       alert("1234")
     }
 
@@ -217,8 +234,8 @@
 
 
     }
-    function publish(_id) {
-      ajaxRequest.publish({ _id: _id }).then(function (data) {
+    function publish(_id,_columnid) {
+      ajaxRequest.publish({ _id: _id,columnid:_columnid }).then(function (data) {
         layer.msg("发布成功")
       })
     }
@@ -235,7 +252,7 @@
       table.ajax.reload();
     }
 
-    function callback(){
+    function callback() {
       table.ajax.reload();
     }
   </script>
